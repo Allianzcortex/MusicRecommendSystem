@@ -4,18 +4,18 @@ from django.conf import settings
 
 error_messages = {
     'title': {
-        'required': u'必须填写标题',
-        'max_length': u'标题长度过长',
+        'required': u'title can not be empty',
+        'max_length': u'title is too long',
     },
     'content': {
-        'required': u'必须填写内容',
+        'required': u'content can not be empty',
     }
 }
 
 
 class CreateForm(forms.Form):
     # 创建主题的内容
-    title = forms.CharField(max_length=128, help_text=u'请输入标题',
+    title = forms.CharField(max_length=128, help_text=u'Please type your title',
                             error_messages=error_messages.get('title'))
     content = forms.CharField(widget=forms.Textarea,
                               error_messages=error_messages.get('content'))
@@ -26,7 +26,7 @@ class CreateForm(forms.Form):
     def clean_title(self):
         title = self.cleaned_data.get('title')
         if title in settings.LAW_RESERVED:
-            raise forms.ValidationError(u'帖子包含不合法字符')
+            raise forms.ValidationError(u'Illegal character in post')
         return title
 
     def clean_content(self):
@@ -34,7 +34,7 @@ class CreateForm(forms.Form):
         content = self.cleaned_data.get('content')
         for str in settings.LAW_RESERVED:
             if content.find(str):
-                raise forms.ValidationError(u'内容不合法')
+                raise forms.ValidationError(u'Illegal content')
         '''
         return self.cleaned_data.get('content')
 

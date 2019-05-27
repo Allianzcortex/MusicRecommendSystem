@@ -32,7 +32,7 @@ Google's highcharts library
 
 The recommend principle is **If more people like item A and item B at the same time, then item A and item B have obvious similarities.**
 
-In short, the basic similarity is calculated by a complex formula. You can the the implementation of codes in [here](recommend/recommend/views.py#L216)
+In short, the basic similarity is calculated by a complex formula. You can the the implementation of codes in [here](recommend/views.py#L216)
 
 ```
         for userID, items in trainset.items():

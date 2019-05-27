@@ -6,7 +6,7 @@
         
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <title>Introduction | cortexForum 的设计理念</title>
+        <title>Introduction | design principle</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="The beat way to learn is to practice">
         <meta name="generator" content="GitBook 2.6.7">
@@ -157,7 +157,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="./" >cortexForum 的设计理念</a>
+        <a href="./" >design principle</a>
     </h1>
 </div>
 
@@ -168,180 +168,7 @@
                     <section class="normal" id="section-">
                     
                         <h2 id="cortexforum-&#x7684;&#x8BBE;&#x8BA1;&#x7406;&#x5FF5;">cortexForum &#x7684;&#x8BBE;&#x8BA1;&#x7406;&#x5FF5;</h2>
-<blockquote>
-<p>一个结合算法的理论性和工程的健壮性的项目</p>
-    <p>基于 Hadoop 的音乐推荐系统的实现</p>
-</blockquote>
-<ul>
-<li> 算法</li>
-<li> 收集数据</li>
-<li> 工程项目 </li>
-</ul>
-                        <hr/>
-                        <h4>算法理论</h4>
-                        <p>推荐系统的算法在工业生产中主要采用的是 <strong>协同过滤算法(Collaborative Filter)</strong>,包括两种：<strong>基于用户的协同过滤算法(UserCF)</strong>
-                            和 <strong>基于物品的协同过滤算法(ItemCF)</strong>。基于用户的可以大概理解为 “你所关注人的喜好也就是你的喜好”，
-                            而基于物品的则可以认为是“有更多的人同时喜欢物品A和物品B，那么物品A和物品B就有比较明显的相似度”</p>
-<p>
-    同时还有非常热门的一种推荐方法是采用 <strong>LFM(隐语义模型，latent factor model)</strong> 来进行，需要自定义大量的参数和比重来预测用户的行为数据，同时对数据库的存储量要求比较高。
 
-在此基础上还有 <strong>基于上下文相关的推荐(context-based)</strong>，和 <strong>基于第三方社交网络(social network)的推荐</strong> 等等。
-
-在一开始的实现过程中我决定采用 <strong>UserCF+LFM+ItemCF</strong> 的方式来结合进行推荐，但最后的结果不能令人满意。因为本身所建立的 <strong>follow/unfollow</strong> 机制在没有经过大量时间和大量数据积累的情况下很难做到定向积累，而用第三方社交网络的话 SDK 开发并不难(参见 <a href="http://open.weibo.com/wiki/%E7%BD%91%E7%AB%99%E6%8E%A5%E5%85%A5">新浪SDK</a>),但很难说服人们将自己的社交网络账号和一个非权威性的官方网站绑定在一起。实际上基于 UserCF 的算法也主要用在社交网络里，对像电商这样很难积累起用户关系的商业模式并不适用。所以<del>UserCF</del>
-
-至于 LFM 的考虑，自己在进行系统设计的时候考虑并实现了 <strong>点赞/反对(upvote/downvote)</strong> 机制，但用户对于点赞和反对具有很大的随意性，并且非主题依据，很难对应做出相对性的推荐结果出来。所以<del>LFM</del>
-
-
-</p>
-                        <p>
-                            所以自己最终选择 ItemCF 来作为自己主要算法的实现方向。
-
-<a href="http://grouplens.org/datasets/movielens/">movielens数据集</a> 是非常出名的一个对电影打分的数据集，该数据集的每一条都包含了用户对某一特定影片的打分。因为 MarkDown 格式在公式显示上的弱势，在这里就不对理论做过多的解释(用 Latex 写完公式之后会添加)。简而言之就是用 Python 实现了 <strong>基本的相似度计算</strong>，<strong>对热门物品有惩罚作用的 IUF 算法</strong>，
-                            和 <strong>矩阵归一化的算法</strong> ，得出一个合适的 K、N 值，最后用 <strong>matplotlib</strong> 绘图展示。
-
-                        </p>
-
-                        <hr/>
-                        <h4>对数据的抓取</h4>
-                        <p>
-                            推荐系统中一个非常重要的部分就是 <strong>冷启动(cold start)</strong>,从无到有构造一个推荐的数据积累
-
-                        </p>
-                        <p>
-                            利用 <strong>requests+PhamtomJs+Selenium</strong> 构建了一个多线程爬虫，爬取了百度音乐、酷狗音乐、酷我音乐(网易云音乐用 API 直接读取 json 格式数据后进行处理)上5W+个专辑，
-                            经过 数据清洗(去掉已经是死链的 url 和 <strong>歌曲数量少于5条的专辑</strong>)后，拿到了总共 <strong>47222</strong>
-                            个共 <strong>637404条</strong> 的数据量。
-                        </p>
-
-                        <p>
-
-                            每条数据量包括 <strong>UserID,music,url,rating</strong>.有些部分的 url 无法抓取，用 <strong> None</strong> 来代替。
-                            还有同一首歌在不同的网站上会有不同的名称，加上了诸如 [国语、歌手名、演唱时间] 等无关因素，但对最终结果的影响不大。
-                            其中的 rating 我是以 <strong>评论数量</strong> 来作为判断依据的。以网易云音乐为例
-                            <ul>
-                            <li>0-500 是1分</li>
-                        <li>500-1000是2分</li>
-                        <li>1000-2000是3分</li>
-                        <li>2000-3000是4分</li>
-                            </ul>
-                            而大于3000条以上的说明是最热门，打5分。
-                        </p>
-
-                        <p>
-                            之后利用 <strong>Hadoop 的 streaming 工具</strong> 来对数据进行处理，建立 <strong>mapper 和 reducer</strong> 函数，
-                            将 url 用 <strong>b64encode</strong> 进行编码，进行统一的定位，形成如 [47211 U2VtcHJlbOKAmGlzdGVzc29UZW1wbw== None 3] 这样的格式，
-                            方便在数据库和 Django 的后端中进行处理。
-                        </p>
-                        <p>
-                            在这里还需要说明的一点是一开始我还考虑到了利用 Hadoop 的 <strong>mahout</strong> 工具来做推荐，
-                            但最后查看文档发现 mahout 库并不适合在单机上进行推荐运算，而用分布式配置的话数据量又远远不够。
-                            所以最后还是自己用 Python 来实现算法，一方面能方便修改各种参数，另一方面能加深自己对算法的理解。
-
-                        </p>
-                        <hr/>
-
-                        <h4>实际工程的构建</h4>
-                        <p>
-                            <blockquote>> 一个好的产品是考虑人性的</blockquote>
-                        </p>
-                        <p>
-                            自己本意想要实现的是一个问答社区和论坛的综合体，来承载推荐算法。
-
-                        </p>
-                        <p>
-                            自己后端采用 <strong>Django</strong>，前端用 <strong>Bootstrap</strong>。在实现的过程中
-                            遵循了 <strong>《Two scopes of Django:The Best Practice》的最佳实践指南</strong>，使用 form 而非 request.POST 的方式来处理前后端交互，
-                            做到了标准的 MVC 架构，同时避免 <strong>Django-bootstrap3 或者 crispy_forms</strong> 这样的表单展示插件，
-                            后端传送给前端纯粹的 json 数据，使 <strong>逻辑和展示</strong> 分离开来。在开发的过程中则根
-                            据 <strong>《Test Driven Development:Python Web》</strong>的建议方式，在 authen 模块里用 TDD 的方式进行开发，编写了足够多的测试用例来保证程序的健壮性。
-
-                        </p>
-                        <p>
-
-                            但在实现之后在和群里的讨论过程中，我得到的一个消息，或者说建议，是到目前为止国内还没有很好利用第三方社交网络来进行推荐的例子，而用 LFM 进行推荐则是一个大公司事业部数个项目组花费几个季度的时间才能达到一个差不多的效果，
-                            对于本科毕设而言，最好是专注于实现一种算法。所以最后选择 ItemCF 作为自己的主攻方向。
-                        </p>
-
-                        <p>
-                            出于对测试数据的积累和用户数据量的考虑，我没有用 <strong>@login_required</strong> 必须要求登陆
-                            才能参与推荐，而是对任意参与的用户都进行推荐。
-
-                        </p>
-                        <p>
-                            在推荐里面我选择了两种方式：<br>
-
-<img src="http://7xk19m.com1.z0.glb.clouddn.com/recommend_1.png">
-
-1. 只对用户进行简单的推荐。我会从歌曲中随机抽出10首歌，来让用户进行打分。1-5星对应1-5分，而如果用户选择了不感兴趣，那么
-该项就不会计入到最终的推荐结果中。
-                            <br>
-
-<img src="http://7xk19m.com1.z0.glb.clouddn.com/recommend_2.png">
-2.用户点击 <strong>完全推荐按钮</strong> 后，就会在简单推荐的基础上增加 <strong>用户画像、热门选择、上下文相关</strong> 等内容，从而进行更精确化的推荐。
-
-
-                            </p>
-                        <p>
-                            毫无疑问的一点是对于音乐的喜好与用户所成长的年代有明显的相关关系，对于 <strong>70后</strong> 来讲，推荐的更多是 邓丽君/小虎队/刘德华 等港台歌手，
-                            <strong>80/90后</strong> 的学生时代伴随着周杰伦长大，而对于00后女性，对韩国音乐的偏好性更明显。在这种情况下我们只需要维护一个合适分类的数据库，从中随机进行抽选，就能够使用户对推荐结果产生足够的满意度
-                            (而之后依据用户对歌曲的评分再进行 ItemCF 推荐是另一个话题了)
-<p>
-与此同时自己还提供了一个 checkbox 来让参与者选择知道这个网站的途径，当时做这样的选择的时候主要目的是根据 <strong>增长黑客(Growth Hacker)</strong>
-                        的思想来让自己的推广更有效率。但考虑到网站本身的性质，最后的结果也只能作为一个参考。
-</p>
-
-                        <p>
-但也存在很多歌曲是跨越时代、性别和年龄的，经典的钢琴曲在全世界都能吸引粉丝，纯音乐不分国籍都能引发人们的共鸣。因此我们 又要根据用户所喜欢的类别来选择对应歌曲，
-                            大略划分为了 <strong>粤语/国语/……古典/电子/……清新/大气</strong> 12种类别，
-                            同时又允许用户根据 <strong>当下的心情(context-based,上下文情景相关)</strong> 来选择，包括 激情/浪漫/伤感/怀旧 4种类型。
-<p>
-在用户选择了不同的推荐方式之后，系统就会依据用户对不同歌曲的喜好来进行推荐。同时允许用户对此次的推荐结果进行打分。
-                        </p>
-<img src="http://7xk19m.com1.z0.glb.clouddn.com/recommend_3.png"><br>
-
-                        <p>
-推荐系统有许多的测试指标，包括在第一部分测试 ItemCF 中所采用的 <strong>准确率(precision)、召回率(recall)和覆盖率(coverage)</strong> 等三个指标。
-                        但考虑到最终要面向用户，所以我选择了 <strog>满意度(satisfy_rate) 和 新鲜度(fresh_rate)</strog> 两个指标。完全由用户在结果完成后进行评价，之后再进行有针对性的评价。
-</p>
-同时为了能够合理地展示最后的结果，将单纯的数字量化为具体分析的指标，我选择用 <a href="http://echarts.baidu.com/examples.html">Echarts</a> 作为数据可视化的工具。
-
-                        </p>
-                        <p>
-
-                            首先是对满意度和新鲜度选择折线图作为展示工具，可以表现出随着测试数据量的增大，指标的变化情况。
-                            同时还以平均数作为基准线，能够更明了地看出变化情况。Echarts 本身还有将折线图区域放大的功能和转换为柱状图展示的功能，
-                            能够适应不同维度的需求。
-<img src="http://7xk19m.com1.z0.glb.clouddn.com/recommend_4.png">
-
-其次还有对推荐满意度和新鲜满意度的 <strong>饼形图展示</strong>，对于所有满意度<2 的比例，都认为是不达标的，和打分为 3,4,5 的作为因素来进行绘图。可以直接看出推荐效果的好坏(和时间的关系不大,而是将整体的打分标准都计入考虑)
-
-最后是访问来源的绘图。通过类似 custom-pies 这样的图片，可以比饼形图更形象展示用户来源。
-
-                        </p>
-                        <hr/>
-
-                        <h4>工作量问题</h4>
-<p>
-                        工作量问题：
-
-1. 理论性:考虑了 ItemCF 的实现以及优化<br><br>
-
-2. 工程性:自己写了一个脚本
-                        <script src="https://gist.github.com/Allianzcortex/b10c3e0bb337efc6fd743d22b868595f.js"></script>
-                        来统计自己所写的代码量。去掉 <strong>.idear、.git、.pyc(Python 的解析文件)</strong> 等不相关目录后共有 6225 行。
-</p>
-                        <hr/>
-
-                        自己选用 <strong>阿里云ECS</strong> 来作为自己的服务器,使用 <strong>Nginx+Gunicorn+Supervisor</strong> 来处理请求
-                        <br><br>
-                        所有代码依据 <strong>GPL协议</strong> 托管在 <a href="https://github.com/Allianzcortex/cortexForum/tree/recommend">Github-cortexForum</a>
-                        上
-                        <br><br>
-                        如有任何问题欢迎提出 <strong>issue</strong> 或者 发邮件至 <a href=mailto:iamwanghz@gmail.com>iamwanghz#gmail.com</a>
-
-                    
-                    </section>
-                
                 
                 </div>
             </div>

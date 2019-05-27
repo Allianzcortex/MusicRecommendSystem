@@ -11,10 +11,9 @@
 
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-        <!-- 新 Bootstrap 核心 CSS 文件 -->
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-theme.min.css' %}">
-        <!-- 在这里还应该提供自己手动定制的 css 文件，来增强展示效果 -->
+       
          <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     </script>
@@ -53,8 +52,8 @@
 
 
       <ul class="nav navbar-nav">
-        <li><a href="#">话题</a></li> <!-- 这里应该指向主题，主页-->
-          <li><a href="#">成员</a></li> <!-- 这里应该指向成员-->
+        <li><a href="#">话题</a></li> 
+          <li><a href="#">成员</a></li> 
           <li><a href="{% url 'get_wiki' %}">Wiki</a></li>
         <li><a href="{% url 'item_recommend' %}">推荐系统</a></li>
 
@@ -66,13 +65,13 @@
           {% if notifications_count %}
           <li>
           <a href="#">
-            信息
+            info
           <span class="badge">{{ notifications_count }}</span>
           </a>
           </li>
           {% else %}
               <li>
-          <a href="#">信息</a>
+          <a href="#">info</a>
               </li>
           {% endif %}
       {% endif %}
@@ -87,11 +86,11 @@
 
 
          <ul class="dropdown-menu dropdown-menu-right">
-            <li><a href="/user/{{ user.username }}">主页</a></li>
-            <li><a href="#">设置</a></li>
+            <li><a href="/user/{{ user.username }}">Profile</a></li>
+            <li><a href="#">settings</a></li>
 
             <li role="separator" class="divider"></li>
-            <li><a href="{% url 'logout' %}">退出</a></li>
+            <li><a href="{% url 'logout' %}">Exit</a></li>
          </ul>
 
       {% else %}
@@ -125,9 +124,6 @@
 
     </nav> <!-- navbar-default -->
 
-    <!-- 头部已经完成，接下来就是看怎么划分剩下的模块了-->
-
-
   <div class="row">
         <div class="container">
             <div class="col-md-7 col-md-offset-0">
@@ -141,8 +137,6 @@
 
         </div>
     </div>
-
-    <!-- 接下来就是尾部标志自己了，right reserver等，之后再看 -->
 
     </body>
 </html>

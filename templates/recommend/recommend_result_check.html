@@ -8,7 +8,7 @@
 {% block main_content %}
 
 
-    <strong>以下为所有的数据分析情况</strong>
+    <strong>This is the data analysis result</strong>
     <hr/>
 
     {% for da in datetime %}
@@ -28,7 +28,7 @@
     <div id="main" style="width: 600px;height:400px;"></div>
 
     <script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
+        
         var myChart = echarts.init(document.getElementById('main'));
 
         var d=[];
@@ -61,16 +61,16 @@
         //d=[1];
 
 
-        // 指定图表的配置项和数据
+       
         var option1 = {
     title: {
-        text: '推荐效果展示'
+        text: 'recommend result show'
     },
     tooltip: {
         trigger: 'axis'
     },
     legend: {
-        data:['满意度','新鲜度']
+        data:['satisfying rate','freshness rate']
     },
     toolbox: {
         show: true,
@@ -95,34 +95,34 @@
     },
     series: [
         {
-            name:'满意度',
+            name:'satisfying rate',
             type:'line',
             data:s_rate,
             //data:[11, 11, 15, 13, 12, 13, 10],
             markPoint: {
                 data: [
-                    {type: 'max', name: '最大值'},
-                    {type: 'min', name: '最小值'}
+                    {type: 'max', name: 'Maximum Value'},
+                    {type: 'min', name: 'Minimum Value'}
                 ]
             },
             markLine: {
                 data: [
-                    {type: 'average', name: '平均值'}
+                    {type: 'average', name: 'avarage value'}
                 ]
             }
         },
         {
-            name:'新鲜度',
+            name:'freshness rate',
             type:'line',
             data:f_rate,
             markPoint: {
                 data: [
-                    {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                    {name: 'minimum weekly', value: -2, xAxis: 1, yAxis: -1.5}
                 ]
             },
             markLine: {
                 data: [
-                    {type: 'average', name: '平均值'}
+                    {type: 'average', name: 'average value'}
                 ]
             }
         }
@@ -142,7 +142,7 @@ myChart.setOption(option1);
         var myChart1 = echarts.init(document.getElementById('main1'));
       option2 = {
     title : {
-        text: '推荐结果估算：满意度',
+        text: 'recommend result : satisfying rate',
         x:'center'
     },
     tooltip : {
@@ -156,7 +156,7 @@ myChart.setOption(option1);
     },
     series : [
         {
-            name: '满意度查看',
+            name: 'satisfying rate',
             type: 'pie',
             radius : '55%',
             center: ['50%', '60%'],
@@ -186,7 +186,7 @@ myChart.setOption(option1);
         var myChart3 = echarts.init(document.getElementById('main3'));
       option4 = {
     title : {
-        text: '推荐结果估算：新鲜度',
+        text: 'recommend result：freshness rate',
         x:'center'
     },
     tooltip : {
@@ -200,7 +200,7 @@ myChart.setOption(option1);
     },
     series : [
         {
-            name: '满意度查看',
+            name: 'freshness rate',
             type: 'pie',
             radius : '55%',
             center: ['50%', '60%'],
@@ -236,7 +236,7 @@ myChart.setOption(option1);
     backgroundColor: '#2c343c',
 
     title: {
-        text: '访问来源',
+        text: 'origin',
         left: 'center',
         top: 20,
         textStyle: {
@@ -259,14 +259,14 @@ myChart.setOption(option1);
     },
     series : [
         {
-            name:'访问来源',
+            name:'origin',
             type:'pie',
             radius : '55%',
             center: ['50%', '50%'],
             data:[
-                {value:{{ value6 }}, name:'一度'},
-                {value:{{ value7 }}, name:'二度'},
-                {value:{{ value8 }}, name:'闷声发大财'}
+                {value:{{ value6 }}, name:'1 degree'},
+                {value:{{ value7 }}, name:'2 degrees'},
+                {value:{{ value8 }}, name:'keep it secret'}
             ].sort(function (a, b) { return a.value - b.value}),
             roseType: 'angle',
             label: {

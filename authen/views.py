@@ -12,19 +12,14 @@ from .forms import registrationForm,loginForm,settingpasswordForm
 from django.contrib import messages
 
 
-# Create your views here.
 
-
-
-# 进行有关注册部分
 def user_register(request):
     '''
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('homepage'))  # 怎么从另一个 app 里调用自己想要的
+        return HttpResponseRedirect(reverse('homepage'))
     '''
     user=None
     if request.method == 'POST':
-        # 头像处理之后再做
         form = registrationForm(request.POST)
         if form.is_valid():
             information = form.cleaned_data
@@ -37,16 +32,6 @@ def user_register(request):
             forumUser = ForumUser(user=new_user)
             forumUser.save()
             user=new_user
-
-            '''
-            这一部分不需要，最后在设置里进行信息更新
-            formUser.introduce = information.get('introduce', '')
-            formUser.github = information.get('github', '')
-            formUser.website = information.get('website', '')
-            formUser.douban = information.get('douban', '')
-            formUser.weibo = information.get('weibo', '')
-            '''
-            # 是这样重新返回？我可不确定
             return HttpResponseRedirect(reverse('homepage'))
     else:
         form=registrationForm()
@@ -57,13 +42,7 @@ def user_register(request):
     return render(request,'authen/user_register.html',context)
 
 
-
-# 进行有关登陆部分
 def user_login(request):
-    '''
-    if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('homepage'))
-    '''
 
     if request.method=='POST':
         form=loginForm(request.POST)
@@ -74,7 +53,6 @@ def user_login(request):
             if user is not None:
                 login(request,user)
                 return HttpResponseRedirect(reverse('homepage'))
-            # 接下来 error_messages 如何定义为好,肯定是要显示出来啊
     else:
         form=loginForm()
         user=None
@@ -91,12 +69,11 @@ def user_logout(request):
 
 
 def user_forget_password(request):
-    # 如果忘记自己密码的话，说明自己还需要找回的功能
     pass
 
 @login_required()
 def user_set_password(request):
-    # 重设密码
+
     user = request.user if request.user else None
     if request.method=='POST':
         form=settingpasswordForm(request.POST,user=request.user)
@@ -105,7 +82,7 @@ def user_set_password(request):
             password=form.cleaned_data.get('password')
             user.set_password(password)
             user.save()
-            messages.success(request,u'密码成功更新')
+            messages.success(request,u'password updated successfully')
             return HttpResponseRedirect(reverse('homepage',kwargs='user'))
     else:
         form=settingpasswordForm()

@@ -4,15 +4,15 @@
 {% block main_content %}
     <hr/>
 
-    你是第{{ count }}名参与测试的人
+    you are {{ count }} participants
 
     <hr/>
-    下面是根据您所选择的歌曲进行的推荐
+    Following is the recommendation result based on your choice
     <table class="table table-striped">
     <thead>
     <tr>
         <th>#</th>
-        <th>推荐音乐</th>
+        <th>Recommend Music</th>
     </tr>
     {% for music in recommend_music %}
     <thread>
@@ -26,15 +26,14 @@
     </table>
 
     <hr/>
-
-    下面是根据用户画像进行的推荐
+    Following is the recommendation result based on User Portrait
 
     <table class="table table-striped">
     <thead>
         <tr>
           <th>#</th>
-          <th>推荐音乐</th>
-          <th>可能的链接</th>
+          <th>Recommend Music</th>
+          <th>Possible Link</th>
         </tr>
       </thead>
 
@@ -43,7 +42,7 @@
     <tr>
         <th>{{ forloop.counter }}</th>
         <th>{{ music }}</th>
-        <th><a href="{{ url }}">点击试听</a></th>
+        <th><a href="{{ url }}">Click to have a try</a></th>
     </tr>
     </thread>
     {% endfor %}
@@ -51,14 +50,14 @@
 
     <hr/>
 
-    下面是根据 上下文+相关情景 进行的推荐
+    Following is the recommendation result based on contxt
 
     <table class="table table-striped">
     <thead>
         <tr>
           <th>#</th>
-          <th>推荐音乐</th>
-          <th>可能的链接</th>
+          <th>Recommend Music</th>
+          <th>Possible Link</th>
         </tr>
       </thead>
 
@@ -67,7 +66,7 @@
     <tr>
         <th>{{ forloop.counter }}</th>
         <th>{{ music }}</th>
-        <th><a href="{{ url }}">点击试听</a></th>
+        <th><a href="{{ url }}">Click to have a try</a></th>
     </tr>
     </thread>
     {% endfor %}
@@ -76,7 +75,7 @@
 
 <form method="POST" role="form">
 {% csrf_token %}
-    您对这次的推荐结果是否满意：<br>
+    Are you satisfied with the result this time ?<br>
     <label class="radio-inline"><input type="radio" name="satisfy_rate" value="1">一星</label>
     <label class="radio-inline"><input type="radio" name="satisfy_rate" value="2">二星</label>
     <label class="radio-inline"><input type="radio" name="satisfy_rate" value="3">三星</label>
@@ -86,7 +85,7 @@
 
     <hr/>
 
-    您对这次的推荐结果新鲜度是否满意:<br>
+    Are you satisfied with the freshness rate of result this time ?:<br>
     <label class="radio-inline"><input type="radio" name="fresh_rate" value="1">一星</label>
     <label class="radio-inline"><input type="radio" name="fresh_rate" value="2">二星</label>
     <label class="radio-inline"><input type="radio" name="fresh_rate" value="3">三星</label>
@@ -97,7 +96,7 @@
 <br>
 <button type="submit" class="btn btn-success" value="登陆">
 
-    提交
+    Submit
 
 </button>
 </form>

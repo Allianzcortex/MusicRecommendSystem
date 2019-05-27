@@ -3,11 +3,11 @@
 {% block main_content %}
 
  <div class="panel panel-success">
-  <div class="panel-heading">主题列表
+  <div class="panel-heading">topic list
 
   <li class="dropdown pull-right">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              创建新主题<span class="caret"></span></a>
+              create new topic<span class="caret"></span></a>
         <ul class="dropdown-menu ">
             {% for node in hot_nodes %}
             <li><a href="topic/create/{{ node.slug }}">{{ node.name }}</a> </li>
@@ -27,9 +27,9 @@
         <span class="badge">{{ topic.reply_count }}</span>
              <a href="forum/topic/{{ topic.id }}">{{ topic.title }}</a>
         <br><br>
-              由
+              via
             <a href="user/{{ topic.author.user.username }}">{{ topic.author.user.username }}</a> 在
-            <a href="forum/node/{{ topic.node.name }}">{{ topic.node.name }}</a> 发表于 <strong>{{ topic.created_at }}</strong>
+            <a href="forum/node/{{ topic.node.name }}">{{ topic.node.name }}</a> published at <strong>{{ topic.created_at }}</strong>
 
         </li>
         {% endfor %}
@@ -62,7 +62,7 @@
 
     <div class="panel panel-warning">
 
-  <div class="panel-heading">热门主题</div>
+  <div class="panel-heading">hot topic</div>
   <div class="panel-body">
   </div>
 
@@ -83,7 +83,7 @@
     <div class="row">
  <div class="panel panel-warning">
   <!-- Default panel contents -->
-  <div class="panel-heading">热门回复</div>
+  <div class="panel-heading">hot reply</div>
   <div class="panel-body">
   </div>
 

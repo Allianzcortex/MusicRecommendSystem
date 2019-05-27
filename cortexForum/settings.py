@@ -147,6 +147,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 
 ADMIN_RESERVED = ['admin', 'login', 'logout', ]
 
-LAW_RESERVED = ['porn', 'sex', 'fuck', 'shit']
+LAW_RESERVED = ['porn']
 
 RESERVED = ADMIN_RESERVED + LAW_RESERVED

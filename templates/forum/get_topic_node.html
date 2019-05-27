@@ -5,7 +5,7 @@
 
     <div class="panel panel-warning">
 
-  <div class="panel-heading">关于 {{ slug }} 的话题</div>
+  <div class="panel-heading">Topic about {{ slug }} </div>
   <div class="panel-body">
   </div>
 
@@ -16,7 +16,7 @@
         <span class="badge">{{ topic.reply_count }}</span>
              <a href="forum/topic/{{ topic.id }}">{{ topic.title }}</a>
         <br><br>
-              由 {{ topic.author.user.username }} 在 {{ topic.node.name }} 发表于 <strong>{{ topic.created_at }}</strong>
+               {{ topic.author.user.username }}  {{ topic.node.name }} published at <strong>{{ topic.created_at }}</strong>
 
         </li>
         {% endfor %}

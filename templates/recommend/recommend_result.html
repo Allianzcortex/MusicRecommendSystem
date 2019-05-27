@@ -31,8 +31,8 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
-                    <h1> 音乐推荐系统 </h1>
-                    <!--<hr class="small">-->
+                    <h1> Music Recommender System </h1>
+                   
                     </div>
             </div>
         </div>
@@ -45,41 +45,41 @@
 <br><br>
     <div class="alert alert-warning alert-dismissible fade in" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      <strong>推荐tips!</strong><br><br>
+      <strong>recommend tips tips!</strong><br><br>
 
-    共有两种不同的推荐方式：<br><br>
+    There are two recommendation ways: <br><br>
 
-    默认为简单推荐,随机生成歌曲<br><br>
+    The default is simple recommendation, randomly generated songs<br><br>
 
-    点击"完全推荐"按钮，可以获得更好的体验
+    Click the "Complete Recommendation" button to get a better experience
     </div>
 
 
 
     <hr/>
-    <button type="button" class="btn btn-success" id="before">简单推荐</button>
-    <button type="button" class="btn btn-success pull-right" id="next">完全推荐</button>
+    <button type="button" class="btn btn-success" id="before">simple recommendation</button>
+    <button type="button" class="btn btn-success pull-right" id="next">complete recommendation</button>
     <hr/>
 
 <form method="POST" role="form">
 {% csrf_token %}
 
-<div class="alert alert-danger" role="alert">以下为随机生成推荐内容</div>
+<div class="alert alert-danger" role="alert">This is randomly generated results:</div>
 {% for song,url in random_song.items %}
 
     {{ song }}
-  <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="1">一星</label>
+  <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="1">1 star</label>
 
 
-  <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="2">二星</label>
+  <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="2">2 star</label>
 
 
-  <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="3">三星</label>
-    <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="4">四星</label>
-    <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="5">五星</label>
-    <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="0">完全不了解</label>
+  <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="3">3 star</label>
+    <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="4">4 star</label>
+    <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="5">5 star</label>
+    <label class="radio-inline"><input type="radio" name="{{ forloop.counter }}" value="0">no idea</label>
     <br><br>
-    可能的试听链接为： <a href="http://{{ url }}">{{ url}}</a>
+    Possible Link is : <a href="http://{{ url }}">{{ url}}</a>
 
 
     <hr/>
@@ -90,29 +90,29 @@
 
 
     <div id="user_picture" >
-<div class="alert alert-danger" role="alert">以下为 用户画像 所需要内容</div>
-    <p><li>请选择您的性别</li></p>
+<div class="alert alert-danger" role="alert">The following is the user portrait</div>
+    <p><li>Please choose your gender</li></p>
         <select name="gender" class="form-control input-sm">
-  <option value="1">男性</option>
-  <option value="2">女性</option>
+  <option value="1">Male</option>
+  <option value="2">Female</option>
 </select>
 
 
-    <p><li>请选择您的出生日期</li></p>
+    <p><li>Please choose your birth date</li></p>
     <select name="birth_date" class="form-control input-sm">
-        <option value="1">50后</option>
-        <option value="2">60后</option>
-  <option value="2">70后</option>
-  <option value="3">80后</option>
-  <option value="4">90后</option>
-  <option value="5">00后</option>
+        <option value="1">after 1950</option>
+        <option value="2">after 1960</option>
+  <option value="2">after 1970</option>
+  <option value="3">after 1980</option>
+  <option value="4">after 1990</option>
+  <option value="5">after 2000</option>
 </select>
 
-     <p><li>请选择您知道该网站的途径</li></p>
+     <p><li>Please choose how you know this website</li></p>
     <select name="know_way" class="form-control input-sm">
-  <option value="1">熟人推荐/微信朋友圈/qq好友（一度关系）</option>
-  <option value="2">垂直论坛如V2EX/qq群/技术文章（二度关系）</option>
-  <option value="3">不知道（搞个大新闻啊，你说我怎么就知道这个论坛了，无可奉告，识得唔识得啊）</option>
+  <option value="1">Acquaintance recommendation / WeChat circle of friends / qq friends (once relationship)</option>
+  <option value="2">Vertical forums such as reddit / technical articles (second-degree relationship)</option>
+  <option value="3">Keep it secret</option>
 </select>
 
     </div>
@@ -123,67 +123,61 @@
 
 
     <div id="type_select" >
-        <div class="alert alert-danger" role="alert">以下为 热门选择+上下文相关 所需要内容</div>
-        <p><li>请选择您所喜欢的类别</li></p>
+        <div class="alert alert-danger" role="alert">The followings are popular choices + context-sensitive content</div>
+        <p><li>Please choose the type you like</li></p>
 
-        <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="1"> 粤语
-</label>
 <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="2"> 国语
-</label>
-<label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="3"> 欧美
+  <input type="checkbox" name="type_like" value="3"> Europe & America
 </label>
 
         <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="4"> 日韩
+  <input type="checkbox" name="type_like" value="4"> Japan & Korea
 </label>
 <br><br>
          <label class="checkbox-inline">
   <input type="checkbox" name="type_like" value="5"> DJ
 </label>
 <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="6"> 古典
+  <input type="checkbox" name="type_like" value="6"> Traditional
 </label>
 <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="7"> 电子
+  <input type="checkbox" name="type_like" value="7"> Electrical
 </label>
 
         <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="8"> 金属
+  <input type="checkbox" name="type_like" value="8"> Metal
 </label>
         <br><br>
 
           <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="9"> 清新
+  <input type="checkbox" name="type_like" value="9"> Fresh
 </label>
 <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="10"> 纯音乐
+  <input type="checkbox" name="type_like" value="10"> Pure Music
 </label>
 <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="11"> 大气
+  <input type="checkbox" name="type_like" value="11"> Brand
 </label>
 
         <label class="checkbox-inline">
-  <input type="checkbox" name="type_like" value="12"> 中国风
+  <input type="checkbox" name="type_like" value="12"> Unknown Type
 </label>
 
         <br><br>
-        <p><li>请选择您此时的心情</li></p>
+        <p><li>Please choose your current mood: </li></p>
 
          <label class="checkbox-inline">
-  <input type="checkbox" value="9"> 激情
+  <input type="checkbox" value="9"> passionate
 </label>
 <label class="checkbox-inline">
-  <input type="checkbox" value="10"> 浪漫
+  <input type="checkbox" value="10"> romantic
 </label>
 <label class="checkbox-inline">
-  <input type="checkbox" value="11"> 伤感
+  <input type="checkbox" value="11"> sad
 </label>
 
         <label class="checkbox-inline">
-  <input type="checkbox" value="12"> 怀旧
+  <input type="checkbox" value="12"> miss the old time
 </label>
 <br><br>
         </div>
@@ -191,7 +185,7 @@
 
 <button type="submit" class="btn btn-success" value="登陆">
 
-    提交
+    submit
 
 </button>
 </form>

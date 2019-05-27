@@ -56,8 +56,8 @@ $(document).ready(function() {
     <form method="POST" class="form-horizontal" role="form">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-default" value="登陆">
-        提交评论
+    <button type="submit" class="btn btn-default" value="login">
+        submit comment
 </button>
 </form>
 </div>
@@ -65,12 +65,11 @@ $(document).ready(function() {
 
 {% block sidebar %}
 <div class="panel panel-danger">
-  <div class="panel-heading">关于您的回复内容</div>
+  <div class="panel-heading">About your prely</div>
 
 <ul class="list-group">
-    <li class="list-group-item">请保证您的回复对内容有所帮助</li>
-    <li class="list-group-item">请保证您的回复不含人身攻击内容</li>
-    <li class="list-group-item">对于您不赞同的内容可以block </li>
+    <li class="list-group-item">Please make sure it makes contributions to others</li>
+    <li class="list-group-item">Please donot insult others</li>
   </ul>
 
 </div>
