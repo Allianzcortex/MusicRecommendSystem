@@ -1,0 +1,19 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django-crispy-forms = "==1.6.0"
+django-debug-toolbar = "==1.4"
+python-memcached = "==1.57"
+six = "==1.10.0"
+sqlparse = "==0.1.19"
+Django = "==1.9.4"
+MySQL-python = "==1.2.5"
+Pillow = "==3.1.1"
+
+[requires]
+python_version = "3.6"
